@@ -1,17 +1,15 @@
 # LightCore API
 
-[![](https://jitpack.io/v/YourUsername/LightCore.svg)](https://jitpack.io/#YourUsername/LightCore)
+[![](https://jitpack.io/v/kooki90/LightCore.svg)](https://jitpack.io/#kooki90/LightCore)
 [![License: MIT](https://img.shields.io/badge/License-MIT-yellow.svg)](https://opensource.org/licenses/MIT)
 [![Java Version](https://img.shields.io/badge/Java-21-blue.svg)](https://www.oracle.com/java/technologies/javase/jdk21-archive-downloads.html)
 [![Minecraft](https://img.shields.io/badge/Minecraft-1.16+-green.svg)](https://papermc.io/)
 
-A lightweight Spigot/Paper API for creating beautiful startup messages with built-in ASCII art generator (A-Z).
-
-**Simple. Professional. Zero Dependencies.**
+A lightweight Spigot/Paper library for creating beautiful startup messages with built-in ASCII art generator.
 
 ---
 
-## 🎯 Quick Example
+## Example
 
 ```java
 import me.lime.lightCore.api.StartupMessage;
@@ -38,20 +36,9 @@ MyPlugin has been enabled!
 
 ---
 
-## Features
+## Usage
 
-✨ **Static API** - No plugin instance needed, just like Vault API  
-🎨 **Built-in ASCII Art** - Complete A-Z letter generator  
-🌈 **Hex Color Support** - Full RGB color support for Minecraft 1.16+  
-⚡ **Simple & Clean** - Easy to use, no dependencies
-
----
-
-## For Plugin Developers - How to Use in Your Project
-
-### Step 1: Add LightCore Repository & Dependency
-
-#### Maven (`pom.xml`)
+### Add to `pom.xml`
 
 ```xml
 <repositories>
@@ -63,69 +50,51 @@ MyPlugin has been enabled!
 
 <dependencies>
     <dependency>
-        <groupId>com.github.YourGitHubUsername</groupId>
+        <groupId>com.github.kooki90</groupId>
         <artifactId>LightCore</artifactId>
         <version>1.0.1</version>
-        <scope>provided</scope>
+        <scope>compile</scope>
     </dependency>
 </dependencies>
+
+<build>
+    <plugins>
+        <plugin>
+            <groupId>org.apache.maven.plugins</groupId>
+            <artifactId>maven-shade-plugin</artifactId>
+            <version>3.5.3</version>
+            <executions>
+                <execution>
+                    <phase>package</phase>
+                    <goals>
+                        <goal>shade</goal>
+                    </goals>
+                    <configuration>
+                        <relocations>
+                            <relocation>
+                                <pattern>me.lime.lightCore.api</pattern>
+                                <shadedPattern>com.yourplugin.libs.lightcore</shadedPattern>
+                            </relocation>
+                        </relocations>
+                    </configuration>
+                </execution>
+            </executions>
+        </plugin>
+    </plugins>
+</build>
 ```
 
-> **Note:** Replace `YourGitHubUsername` with your actual GitHub username
-
-#### Gradle (`build.gradle`)
-
-```gradle
-repositories {
-    maven { url 'https://jitpack.io' }
-}
-
-dependencies {
-    compileOnly 'com.github.YourGitHubUsername:LightCore:1.0.1'
-}
-```
-
-### Step 2: Add Dependency to Your `plugin.yml`
-
-```yaml
-depend: [lightcore]
-```
-
-### Step 3: Download LightCore Plugin
-
-Download the latest `lightcore-1.0.1.jar` from:
-- **GitHub Releases**: [Releases Page](https://github.com/YourUsername/LightCore/releases)
-- **JitPack**: Automatically built from repository
-
-Place `lightcore-1.0.1.jar` in your **server's** `plugins/` folder (not your project!)
-
-### Step 4: Use the API in Your Code
+### Code
 
 ```java
 import me.lime.lightCore.api.StartupMessage;
-import me.lime.lightCore.api.AsciiArt;
 import org.bukkit.plugin.java.JavaPlugin;
 
 public class YourPlugin extends JavaPlugin {
     
     @Override
     public void onEnable() {
-        // Option 1: Simple colored message
-        StartupMessage.print("YourPlugin", "&#00FF00");
-        
-        // Option 2: Auto-generated ASCII art (recommended!)
-        StartupMessage.printWithAscii("YourPlugin", "&#FF5733");
-        
-        // Option 3: Custom ASCII art
-        StartupMessage.printWithCustomAscii(
-            "YourPlugin",
-            "&#FFD700",
-            "  ____          _                  ",
-            " |  _ \\ ___ ___| |_ __ ___   ___  ",
-            " | |_) / _ \\_  / __/ _` \\ \\ / / | ",
-            " |  __/  __// /| || (_| |\\ V /| | ",
-            " |_|   \\___/___\\__\\__,_| \\_/ |_| "
-        );
+        StartupMessage.printWithAscii("YourPlugin", "&#00FF00");
     }
 }
 ```
@@ -248,6 +217,47 @@ StartupMessage.printWithAscii("CyanPlugin", "&#00FFFF");
 
 ---
 
+## 🔧 How It Works
+
+LightCore uses **shading/relocation** to bundle into your plugin:
+
+1. **Developer adds** LightCore as a Maven/Gradle dependency
+2. **Shade plugin** bundles LightCore classes into your plugin JAR
+3. **Relocation** prevents conflicts with other plugins
+4. **Server owner installs** only YOUR plugin (no LightCore.jar needed!)
+
+### Example Build Output:
+```
+YourPlugin-1.0.0.jar
+├── com/yourname/yourplugin/
+│   ├── YourPlugin.class
+│   └── libs/
+│       └── lightcore/  ← LightCore bundled here
+│           ├── StartupMessage.class
+│           └── AsciiArt.class
+└── plugin.yml (no depend: [lightcore] needed!)
+```
+
+**Result:** Server owners only install `YourPlugin-1.0.0.jar` - that's it! ✅
+
+---
+
+## 🆚 Library vs Plugin Dependency
+
+| Aspect | LightCore (Library) | Traditional Plugin Dependency |
+|--------|---------------------|------------------------------|
+| **Server Setup** | Install only YOUR plugin | Install YOUR plugin + LightCore plugin |
+| **plugin.yml** | No `depend: [lightcore]` | Requires `depend: [lightcore]` |
+| **File Count** | 1 JAR file | 2 JAR files |
+| **Updates** | Update your plugin only | Update both plugins |
+| **Conflicts** | Prevented via relocation | Possible version conflicts |
+| **Server Owner** | ✅ Simpler | ❌ More complex |
+| **Use Case** | ✅ LightCore (100KB library) | ✅ Large APIs like Vault |
+
+**Why Library?** LightCore is tiny (~100KB), so bundling it is more convenient than requiring a separate plugin installation.
+
+---
+
 ## Building LightCore
 
 ### Maven
@@ -350,6 +360,7 @@ Give a ⭐️ if this project helped you!
 
 ## 📚 Documentation
 
+- **[QUICKSTART.md](QUICKSTART.md)** - ⚡ Get started in 5 minutes (recommended!)
 - **[README.md](README.md)** - Main documentation (you are here)
 - **[INTEGRATION_GUIDE.md](INTEGRATION_GUIDE.md)** - Step-by-step integration tutorial
 - **[PUBLISH_GUIDE.md](PUBLISH_GUIDE.md)** - How to publish your own fork
