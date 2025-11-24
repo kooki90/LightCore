@@ -71,17 +71,17 @@ public class StartupMessage {
         if (version != null || authors != null) {
             Bukkit.getConsoleSender().sendMessage(color + "Plugin Information:");
             if (version != null) {
-                Bukkit.getConsoleSender().sendMessage(color + " • Version: " + version);
+                Bukkit.getConsoleSender().sendMessage(color + " • " + ChatColor.WHITE + "Version: " + color + version);
             }
             if (authors != null) {
-                Bukkit.getConsoleSender().sendMessage(color + " • Authors: " + authors);
+                Bukkit.getConsoleSender().sendMessage(color + " • " + ChatColor.WHITE + "Authors: " + color + authors);
             }
             Bukkit.getConsoleSender().sendMessage("");
             
             // Print server information
             Bukkit.getConsoleSender().sendMessage(color + "Server Information:");
-            Bukkit.getConsoleSender().sendMessage(color + " • Software: " + Bukkit.getName());
-            Bukkit.getConsoleSender().sendMessage(color + " • Version: " + Bukkit.getVersion());
+            Bukkit.getConsoleSender().sendMessage(color + " • " + ChatColor.WHITE + "Software: " + color + Bukkit.getName());
+            Bukkit.getConsoleSender().sendMessage(color + " • " + ChatColor.WHITE + "Version: " + color + Bukkit.getVersion());
             Bukkit.getConsoleSender().sendMessage("");
         }
     }

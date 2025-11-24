@@ -54,7 +54,7 @@ Server Information:
     <dependency>
         <groupId>com.github.kooki90</groupId>
         <artifactId>lightcore</artifactId>
-        <version>v1.0.4</version>
+        <version>v1.0.5</version>
         <scope>compile</scope>
     </dependency>
 </dependencies>
