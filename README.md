@@ -1,6 +1,42 @@
 # LightCore API
 
+[![](https://jitpack.io/v/YourUsername/LightCore.svg)](https://jitpack.io/#YourUsername/LightCore)
+[![License: MIT](https://img.shields.io/badge/License-MIT-yellow.svg)](https://opensource.org/licenses/MIT)
+[![Java Version](https://img.shields.io/badge/Java-21-blue.svg)](https://www.oracle.com/java/technologies/javase/jdk21-archive-downloads.html)
+[![Minecraft](https://img.shields.io/badge/Minecraft-1.16+-green.svg)](https://papermc.io/)
+
 A lightweight Spigot/Paper API for creating beautiful startup messages with built-in ASCII art generator (A-Z).
+
+**Simple. Professional. Zero Dependencies.**
+
+---
+
+## 🎯 Quick Example
+
+```java
+import me.lime.lightCore.api.StartupMessage;
+
+public class MyPlugin extends JavaPlugin {
+    @Override
+    public void onEnable() {
+        StartupMessage.printWithAscii("MyPlugin", "&#00FF00");
+    }
+}
+```
+
+**Output:**
+```
+ __  __       ____  _             _       
+|  \/  |_   _|  _ \| |_   _  __ _(_)_ __  
+| |\/| | | | | |_) | | | | |/ _` | | '_ \ 
+| |  | | |_| |  __/| | |_| | (_| | | | | |
+|_|  |_|\__, |_|   |_|\__,_|\__, |_|_| |_|
+        |___/               |___/          
+
+MyPlugin has been enabled!
+```
+
+---
 
 ## Features
 
@@ -262,4 +298,63 @@ StartupMessage.printWithAscii("Admin Tools", "&#4169E1");
 
 ---
 
-**That's it! No plugin instance, no complicated setup - just clean, beautiful startup messages.** 🚀
+## 🤝 Contributing
+
+Contributions are welcome! Here's how you can help:
+
+1. **Fork** the repository
+2. **Create** a feature branch (`git checkout -b feature/AmazingFeature`)
+3. **Commit** your changes (`git commit -m 'Add some AmazingFeature'`)
+4. **Push** to the branch (`git push origin feature/AmazingFeature`)
+5. **Open** a Pull Request
+
+### Development Setup
+```bash
+git clone https://github.com/YourUsername/LightCore.git
+cd LightCore
+mvn clean install
+```
+
+---
+
+## 🐛 Bug Reports & Feature Requests
+
+Found a bug or have an idea? [Open an issue](https://github.com/YourUsername/LightCore/issues)
+
+**Bug Report Template:**
+- Minecraft version
+- Server software (Spigot/Paper)
+- LightCore version
+- Steps to reproduce
+- Expected vs actual behavior
+
+---
+
+## 📝 Changelog
+
+See [CHANGELOG.md](CHANGELOG.md) for a list of changes in each version.
+
+---
+
+## 📄 License
+
+This project is licensed under the MIT License - see the [LICENSE](LICENSE) file for details.
+
+---
+
+## 🌟 Show Your Support
+
+Give a ⭐️ if this project helped you!
+
+---
+
+## 📚 Documentation
+
+- **[README.md](README.md)** - Main documentation (you are here)
+- **[INTEGRATION_GUIDE.md](INTEGRATION_GUIDE.md)** - Step-by-step integration tutorial
+- **[PUBLISH_GUIDE.md](PUBLISH_GUIDE.md)** - How to publish your own fork
+- **[CHANGELOG.md](CHANGELOG.md)** - Version history
+
+---
+
+**Built with ❤️ by Lime | No plugin instance, no complicated setup - just clean, beautiful startup messages.** 🚀
