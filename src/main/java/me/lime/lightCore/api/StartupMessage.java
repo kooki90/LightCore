@@ -54,8 +54,6 @@ public class StartupMessage {
      */
     public static void printWithAscii(String name, String hex, String version, String authors) {
         String color = translateHex(hex);
-        String yellow = ChatColor.of("#FFD700").toString();
-        String gray = ChatColor.GRAY.toString();
         
         // Generate ASCII art automatically from text
         String[] asciiLines = AsciiArt.generate(name);
@@ -71,19 +69,19 @@ public class StartupMessage {
         
         // Print plugin information if provided
         if (version != null || authors != null) {
-            Bukkit.getConsoleSender().sendMessage(yellow + "Plugin Information:");
+            Bukkit.getConsoleSender().sendMessage(color + "Plugin Information:");
             if (version != null) {
-                Bukkit.getConsoleSender().sendMessage(gray + " • " + ChatColor.WHITE + "Version: " + yellow + version);
+                Bukkit.getConsoleSender().sendMessage(color + " • Version: " + version);
             }
             if (authors != null) {
-                Bukkit.getConsoleSender().sendMessage(gray + " • " + ChatColor.WHITE + "Authors: " + yellow + authors);
+                Bukkit.getConsoleSender().sendMessage(color + " • Authors: " + authors);
             }
             Bukkit.getConsoleSender().sendMessage("");
             
             // Print server information
-            Bukkit.getConsoleSender().sendMessage(yellow + "Server Information:");
-            Bukkit.getConsoleSender().sendMessage(gray + " • " + ChatColor.WHITE + "Software: " + yellow + Bukkit.getName());
-            Bukkit.getConsoleSender().sendMessage(gray + " • " + ChatColor.WHITE + "Version: " + yellow + Bukkit.getVersion());
+            Bukkit.getConsoleSender().sendMessage(color + "Server Information:");
+            Bukkit.getConsoleSender().sendMessage(color + " • Software: " + Bukkit.getName());
+            Bukkit.getConsoleSender().sendMessage(color + " • Version: " + Bukkit.getVersion());
             Bukkit.getConsoleSender().sendMessage("");
         }
     }

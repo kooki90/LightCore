@@ -53,8 +53,8 @@ Server Information:
 <dependencies>
     <dependency>
         <groupId>com.github.kooki90</groupId>
-        <artifactId>LightCore</artifactId>
-        <version>1.0.1</version>
+        <artifactId>lightcore</artifactId>
+        <version>v1.0.4</version>
         <scope>compile</scope>
     </dependency>
 </dependencies>
@@ -64,7 +64,7 @@ Server Information:
         <plugin>
             <groupId>org.apache.maven.plugins</groupId>
             <artifactId>maven-shade-plugin</artifactId>
-            <version>3.5.3</version>
+            <version>3.2.4</version>
             <executions>
                 <execution>
                     <phase>package</phase>
