@@ -1,4 +1,42 @@
+# LightCore API
 
+A lightweight Spigot/Paper library for creating beautiful startup messages with built-in ASCII art generator.
+
+---
+
+## Example
+
+```java
+import me.lime.lightCore.api.StartupMessage;
+
+public class MyPlugin extends JavaPlugin {
+    @Override
+    public void onEnable() {
+        // Automatic - gets version, authors from plugin.yml and server info
+        StartupMessage.printWithAscii("MyPlugin", "&#00FF00");
+    }
+}
+```
+
+**Output:**
+```
+ __  __       ____  _             _       
+|  \/  |_   _|  _ \| |_   _  __ _(_)_ __  
+| |\/| | | | | |_) | | | | |/ _` | | '_ \ 
+| |  | | |_| |  __/| | |_| | (_| | | | | |
+|_|  |_|\__, |_|   |_|\__,_|\__, |_|_| |_|
+        |___/               |___/          
+
+Plugin Information:
+ • Version: 1.0.0
+ • Authors: YourName
+
+Server Information:
+ • Software: Paper
+ • Version: 1.21.8-R0.1-SNAPSHOT
+```
+
+---
 
 ## Usage
 
@@ -52,13 +90,12 @@
 
 ```java
 import me.lime.lightCore.api.StartupMessage;
-import org.bukkit.plugin.java.JavaPlugin;
 
-public class YourPlugin extends JavaPlugin {
-    
+public class MyPlugin extends JavaPlugin {
     @Override
     public void onEnable() {
-        StartupMessage.printWithAscii("YourPlugin", "&#00FF00");
+        // Automatic - gets version, authors from plugin.yml and server info
+        StartupMessage.printWithAscii("MyPlugin", "&#00FF00");
     }
 }
 ```

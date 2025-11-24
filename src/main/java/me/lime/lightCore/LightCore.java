@@ -7,7 +7,8 @@ public final class LightCore extends JavaPlugin {
 
     @Override
     public void onEnable() {
-        StartupMessage.printWithAscii("WGTitles", "&#FB7208");
+        // Automatic - gets version, authors from plugin.yml
+        StartupMessage.printWithAscii("LightCore", "&#FB7208");
     }
 
     @Override
