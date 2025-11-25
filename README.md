@@ -2,34 +2,7 @@
 
 A lightweight Spigot/Paper library for plugin development.
 
-## 🚀 Quick Install (Paper 1.16.5+)
-
-Just add to your `plugin.yml`:
-```yaml
-libraries:
-  - com.github.kooki90:lightcore:v1.0.12
-```
-
-Paper will automatically download LightCore at runtime!
-
----
-
-## Features
-- **Startup Messages** - Beautiful ASCII art startup messages
-- **Messaging System** - Chat, ActionBar, Title, BossBar with hex colors & placeholders
-- **World Utilities** - World, Block, and Chunk helpers
-- **Text Colors** - MiniMessage & legacy color support with caching
-- **Console Logging** - Colored log levels (info, warn, error, debug, fatal)
-- **Command Helpers** - Tab completion utilities and player/world filters
-- **Config Utilities** - ConfigService with caching and ConfigMigrator for updates
-- **Utility Classes** - String, Math, File, Cooldown, PDC, Stream, Lock utilities
-
----
-
-## Alternative: Maven (Shade into JAR)
-
-<details>
-<summary>Click to expand Maven setup</summary>
+## 🚀 Installation
 
 Add JitPack repository and dependency to your `pom.xml`:
 
@@ -51,7 +24,19 @@ Add JitPack repository and dependency to your `pom.xml`:
 </dependencies>
 ```
 
-</details>
+> ⚠️ **Note:** Paper's `plugin.yml` libraries feature only supports Maven Central. Since LightCore is on JitPack, you must shade it into your JAR.
+
+---
+
+## Features
+- **Startup Messages** - Beautiful ASCII art startup messages
+- **Messaging System** - Chat, ActionBar, Title, BossBar with hex colors & placeholders
+- **World Utilities** - World, Block, and Chunk helpers
+- **Text Colors** - MiniMessage & legacy color support with caching
+- **Console Logging** - Colored log levels (info, warn, error, debug, fatal)
+- **Command Helpers** - Tab completion utilities and player/world filters
+- **Config Utilities** - ConfigService with caching and ConfigMigrator for updates
+- **Utility Classes** - String, Math, File, Cooldown, PDC, Stream, Lock utilities
 
 ---
 
