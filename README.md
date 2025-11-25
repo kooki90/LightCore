@@ -1,6 +1,20 @@
 # LightCore API
 
-A lightweight Spigot/Paper library for:
+A lightweight Spigot/Paper library for plugin development.
+
+## 🚀 Quick Install (Paper 1.16.5+)
+
+Just add to your `plugin.yml`:
+```yaml
+libraries:
+  - com.github.kooki90:lightcore:v1.0.12
+```
+
+Paper will automatically download LightCore at runtime!
+
+---
+
+## Features
 - **Startup Messages** - Beautiful ASCII art startup messages
 - **Messaging System** - Chat, ActionBar, Title, BossBar with hex colors & placeholders
 - **World Utilities** - World, Block, and Chunk helpers
@@ -9,6 +23,35 @@ A lightweight Spigot/Paper library for:
 - **Command Helpers** - Tab completion utilities and player/world filters
 - **Config Utilities** - ConfigService with caching and ConfigMigrator for updates
 - **Utility Classes** - String, Math, File, Cooldown, PDC, Stream, Lock utilities
+
+---
+
+## Alternative: Maven (Shade into JAR)
+
+<details>
+<summary>Click to expand Maven setup</summary>
+
+Add JitPack repository and dependency to your `pom.xml`:
+
+```xml
+<repositories>
+    <repository>
+        <id>jitpack.io</id>
+        <url>https://jitpack.io</url>
+    </repository>
+</repositories>
+
+<dependencies>
+    <dependency>
+        <groupId>com.github.kooki90</groupId>
+        <artifactId>lightcore</artifactId>
+        <version>v1.0.12</version>
+        <scope>compile</scope>
+    </dependency>
+</dependencies>
+```
+
+</details>
 
 ---
 
@@ -42,70 +85,6 @@ Plugin Information:
 Server Information:
  • Software: Paper
  • Version: 1.21.8-R0.1-SNAPSHOT
-```
-
----
-
-## Usage
-
-### Add to `pom.xml`
-
-```xml
-<repositories>
-    <repository>
-        <id>jitpack.io</id>
-        <url>https://jitpack.io</url>
-    </repository>
-</repositories>
-
-<dependencies>
-    <dependency>
-        <groupId>com.github.kooki90</groupId>
-        <artifactId>lightcore</artifactId>
-        <version>v1.0.12</version>
-        <scope>compile</scope>
-    </dependency>
-</dependencies>
-
-<build>
-    <plugins>
-        <plugin>
-            <groupId>org.apache.maven.plugins</groupId>
-            <artifactId>maven-shade-plugin</artifactId>
-            <version>3.2.4</version>
-            <executions>
-                <execution>
-                    <phase>package</phase>
-                    <goals>
-                        <goal>shade</goal>
-                    </goals>
-                    <configuration>
-                        <relocations>
-                            <relocation>
-                                <pattern>me.lime.lightCore.api</pattern>
-                                <shadedPattern>com.yourplugin.libs.lightcore</shadedPattern>
-                            </relocation>
-                        </relocations>
-                    </configuration>
-                </execution>
-            </executions>
-        </plugin>
-    </plugins>
-</build>
-```
-
-### Code
-
-```java
-import me.lime.lightCore.api.StartupMessage;
-
-public class MyPlugin extends JavaPlugin {
-    @Override
-    public void onEnable() {
-        // Automatic - gets version, authors from plugin.yml and server info
-        StartupMessage.printWithAscii("MyPlugin", "&#00FF00");
-    }
-}
 ```
 
 ---
