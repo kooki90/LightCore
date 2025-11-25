@@ -1,10 +1,12 @@
 # LightCore API
 
-A lightweight Spigot/Paper library for creating beautiful startup messages with built-in ASCII art generator.
+A lightweight Spigot/Paper library for:
+- **Startup Messages** - Beautiful ASCII art startup messages
+- **Messaging System** - Chat, ActionBar, Title, BossBar with hex colors & placeholders
 
 ---
 
-## Example
+## Startup Message Example
 
 ```java
 import me.lime.lightCore.api.StartupMessage;
@@ -54,7 +56,7 @@ Server Information:
     <dependency>
         <groupId>com.github.kooki90</groupId>
         <artifactId>lightcore</artifactId>
-        <version>v1.0.5</version>
+        <version>v1.0.6</version>
         <scope>compile</scope>
     </dependency>
 </dependencies>
@@ -102,4 +104,70 @@ public class MyPlugin extends JavaPlugin {
 
 ---
 
-**Built with ❤️ by Lime | No plugin instance, no complicated setup - just clean, beautiful startup messages.** 🚀
+## Messaging API
+
+### Quick Usage
+
+```java
+import me.lime.lightCore.api.messaging.Message;
+
+// Chat message with hex colors
+Message.chat(player, "&#00FF00Hello &#FFFFFFWorld!");
+
+// Chat with placeholders
+Message.chat(player, "&#FF0000Hello {player}!", "{player}", player.getName());
+
+// Action bar
+Message.actionbar(player, "&#FFD700+50 Coins!");
+
+// Title
+Message.title(player, "&#00FF00Welcome!", "&#FFFFFFEnjoy your stay");
+
+// Title with timing (fadeIn, stay, fadeOut in ticks)
+Message.title(player, "&#FF0000Game Over!", "&#FFFFFFTry again", 10, 70, 20);
+
+// Boss bar (auto-hides after duration)
+Message.bossbar(player, plugin, "&#FFD700Loading...", BossBar.Color.YELLOW, 100);
+
+// Sound
+Message.sound(player, Sound.ENTITY_PLAYER_LEVELUP);
+Message.sound(player, Sound.ENTITY_PLAYER_LEVELUP, 1.0f, 1.5f); // with volume & pitch
+```
+
+### Builder Pattern (Advanced)
+
+```java
+import me.lime.lightCore.api.messaging.MessageBuilder;
+
+// Complex message with multiple features
+MessageBuilder.create()
+    .to(player)
+    .message("&#00FF00Welcome {player}!")
+    .placeholders("{player}", player.getName())
+    .sound(Sound.ENTITY_PLAYER_LEVELUP)
+    .volume(1.0f)
+    .pitch(1.2f)
+    .sendChat();
+
+// Title with full control
+MessageBuilder.create()
+    .to(player)
+    .title("&#FFD700Level Up!", "&#FFFFFFYou are now level {level}")
+    .placeholders("{level}", "10")
+    .titleTimes(10, 70, 20)
+    .sendTitle();
+
+// Boss bar with progress
+MessageBuilder.create()
+    .to(player)
+    .plugin(plugin)
+    .bossbar("&#FF0000Boss Health")
+    .bossbarProgress(0.5f)
+    .bossbarColor(BossBar.Color.RED)
+    .bossbarDuration(200)
+    .sendBossbar();
+```
+
+---
+
+**Built with ❤️ by Lime | Clean, lightweight APIs for Spigot/Paper plugins.** 🚀
