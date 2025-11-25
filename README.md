@@ -333,6 +333,8 @@ ConsoleLogger.error("MyPlugin", "Database connection failed");
 
 Utilities for tab completions and command operations.
 
+> ⚠️ **Note:** This is a lightweight alternative to ACF (Aikar Command Framework). If you need full ACF features like annotations and auto-registration, add ACF separately.
+
 ```java
 import me.lime.lightCore.api.command.CommandHelper;
 
