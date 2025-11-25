@@ -4,6 +4,7 @@ A lightweight Spigot/Paper library for:
 - **Startup Messages** - Beautiful ASCII art startup messages
 - **Messaging System** - Chat, ActionBar, Title, BossBar with hex colors & placeholders
 - **World Utilities** - World, Block, and Chunk helpers
+- **Text Colors** - MiniMessage & legacy color support with caching
 
 ---
 
@@ -57,7 +58,7 @@ Server Information:
     <dependency>
         <groupId>com.github.kooki90</groupId>
         <artifactId>lightcore</artifactId>
-        <version>v1.0.7</version>
+        <version>v1.0.8</version>
         <scope>compile</scope>
     </dependency>
 </dependencies>
@@ -234,6 +235,61 @@ ChunkUtil.createSafeYAsync(world, x, z)
 // Check if position is safe
 ChunkSnapshot snapshot = ChunkUtil.snapshot(chunk);
 boolean safe = ChunkUtil.isSafe(snapshot, localX, y, localZ, minY, maxY);
+```
+
+---
+
+## Text Color API
+
+Supports MiniMessage tags, legacy `&` codes, and hex `&#RRGGBB` colors with automatic caching.
+
+### Basic Usage
+
+```java
+import me.lime.lightCore.api.color.Text;
+
+// String to Component (supports MiniMessage & legacy)
+Component msg = Text.color("<gradient:red:blue>Hello World!");
+Component msg2 = Text.color("&cRed &aGreen &#FF00FFPurple");
+
+// For legacy APIs (returns String with § codes)
+String legacy = Text.colorLegacy("&cHello &#00FF00World");
+
+// Send to player
+player.sendMessage(Text.color("<green>Welcome, <gold>{player}!"));
+```
+
+### Supported Formats
+
+| Format | Example |
+|--------|---------|
+| **Legacy &** | `&c` (red), `&l` (bold), `&o` (italic) |
+| **Hex &#** | `&#FF0000` (red), `&#00FF00` (green) |
+| **MiniMessage** | `<red>`, `<gradient:red:blue>`, `<rainbow>` |
+| **Click/Hover** | `<click:run_command:/help>Click</click>` |
+
+### List Operations
+
+```java
+// Colorize list of strings
+List<Component> lore = Text.colorList(Arrays.asList(
+    "&7Line 1",
+    "<gradient:gold:yellow>Line 2",
+    "&#FF00FFLine 3"
+));
+
+// For legacy (item lore compatibility)
+List<String> legacyLore = Text.colorLegacyList(stringList);
+```
+
+### Conversion
+
+```java
+// Component to legacy string
+String legacy = Text.toLegacy(component);
+
+// Component to MiniMessage string
+String mini = Text.toMiniMessage(component);
 ```
 
 ---
