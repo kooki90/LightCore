@@ -62,7 +62,7 @@ Server Information:
     <dependency>
         <groupId>com.github.kooki90</groupId>
         <artifactId>lightcore</artifactId>
-        <version>v1.0.11</version>
+        <version>v1.0.12</version>
         <scope>compile</scope>
     </dependency>
 </dependencies>
@@ -536,6 +536,73 @@ List<String> names = StreamUtil.from(players)
     .filter(n -> n.startsWith("A"))
     .sorted(Comparator.naturalOrder())
     .toList();
+```
+
+### SchedulerUtil
+
+```java
+import me.lime.lightCore.api.util.SchedulerUtil;
+
+// Initialize once in onEnable()
+SchedulerUtil.init(this);
+
+// Sync tasks (main thread)
+SchedulerUtil.sync(() -> player.sendMessage("Hello!"));
+SchedulerUtil.syncLater(() -> doSomething(), 20L);  // 1 second delay
+SchedulerUtil.syncRepeating(() -> tick(), 0L, 20L); // Every second
+
+// Async tasks
+SchedulerUtil.async(() -> loadDataFromDatabase());
+SchedulerUtil.asyncLater(() -> saveData(), 100L);
+```
+
+### ReflectionsUtil
+
+```java
+import me.lime.lightCore.api.util.ReflectionsUtil;
+
+// Find classes with annotation
+Set<Class<?>> commands = ReflectionsUtil.getTypesAnnotatedWith(
+    getClassLoader(), 
+    "com.example.plugin", 
+    MyAnnotation.class
+);
+
+// Get/set fields
+Object value = ReflectionsUtil.getFieldValue(object, "fieldName");
+ReflectionsUtil.setFieldValue(object, "fieldName", newValue);
+
+// Invoke methods
+Method method = ReflectionsUtil.getMethod(MyClass.class, "methodName", String.class);
+ReflectionsUtil.invokeMethod(method, instance, "arg");
+```
+
+### ActionUtil
+
+Execute config-defined actions with PlaceholderAPI support:
+
+```java
+import me.lime.lightCore.api.util.ActionUtil;
+
+// Initialize (checks for PAPI)
+ActionUtil.checkPAPI();
+
+// Execute actions from config
+List<String> actions = config.getStringList("rewards.actions");
+ActionUtil.execute(player, actions);
+```
+
+**Config format:**
+```yaml
+rewards:
+  actions:
+    - "[message] &aYou received a reward!"
+    - "[title] &6Reward;&7Check your inventory"
+    - "[sound] ENTITY_PLAYER_LEVELUP"
+    - "[consolecommand] give <player> diamond 1"
+    - "[consolecommandchance] 50;give <player> diamond 5"
+    - "[actionbar] &a+100 Coins"
+    - "[broadcast] &e<player> &7found a rare item!"
 ```
 
 ---
