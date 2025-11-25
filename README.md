@@ -5,6 +5,8 @@ A lightweight Spigot/Paper library for:
 - **Messaging System** - Chat, ActionBar, Title, BossBar with hex colors & placeholders
 - **World Utilities** - World, Block, and Chunk helpers
 - **Text Colors** - MiniMessage & legacy color support with caching
+- **Console Logging** - Colored log levels (info, warn, error, debug, fatal)
+- **Command Helpers** - Tab completion utilities and player/world filters
 
 ---
 
@@ -58,7 +60,7 @@ Server Information:
     <dependency>
         <groupId>com.github.kooki90</groupId>
         <artifactId>lightcore</artifactId>
-        <version>v1.0.8</version>
+        <version>v1.0.9</version>
         <scope>compile</scope>
     </dependency>
 </dependencies>
@@ -290,6 +292,87 @@ String legacy = Text.toLegacy(component);
 
 // Component to MiniMessage string
 String mini = Text.toMiniMessage(component);
+```
+
+---
+
+## Console Logger API
+
+Colored console logging with different log levels.
+
+```java
+import me.lime.lightCore.api.logging.ConsoleLogger;
+
+// Simple logging
+ConsoleLogger.info("Server started!");           // Light blue
+ConsoleLogger.warn("Low memory warning!");       // Yellow/Orange
+ConsoleLogger.error("Failed to load config!");   // Light red
+ConsoleLogger.debug("Player joined: Steve");     // Bright green
+ConsoleLogger.fatal("Critical error!");          // Bright red
+ConsoleLogger.success("Plugin loaded!");         // Green
+
+// With plugin prefix
+ConsoleLogger.info("MyPlugin", "Loaded 10 items");
+ConsoleLogger.error("MyPlugin", "Database connection failed");
+```
+
+### Log Levels
+
+| Level | Color | Use Case |
+|-------|-------|----------|
+| `INFO` | Light Blue | General information |
+| `WARN` | Yellow | Warnings |
+| `ERROR` | Light Red | Errors |
+| `DEBUG` | Bright Green | Debug messages |
+| `FATAL` | Bright Red | Critical errors |
+| `SUCCESS` | Green | Success messages |
+
+---
+
+## Command Helper API
+
+Utilities for tab completions and command operations.
+
+```java
+import me.lime.lightCore.api.command.CommandHelper;
+
+// Built-in completions
+List<String> players = CommandHelper.getOnlinePlayers();
+List<String> worlds = CommandHelper.getWorlds();
+List<String> bools = CommandHelper.getBooleans();  // ["true", "false"]
+List<String> nums = CommandHelper.getNumbers(1, 10);
+
+// Filtered by visibility (vanish support)
+List<String> visiblePlayers = CommandHelper.getOnlinePlayers(viewingPlayer);
+
+// Filter by partial input (for tab completion)
+List<String> filtered = CommandHelper.filter(options, args[0]);
+List<String> filteredPlayers = CommandHelper.filterPlayers(player, args[0]);
+List<String> filteredWorlds = CommandHelper.filterWorlds(args[0]);
+
+// Register custom completions
+CommandHelper.registerCompletion("warps", () -> warpManager.getWarpNames());
+CommandHelper.registerCompletion("ranks", () -> Arrays.asList("vip", "mvp", "admin"));
+
+// Use custom completion
+Collection<String> warps = CommandHelper.getCompletion("warps");
+
+// Create simple TabCompleter
+TabCompleter completer = CommandHelper.playerTabCompleter();
+```
+
+### Command Sender Helpers
+
+```java
+// Check if sender is player
+if (CommandHelper.isPlayer(sender)) {
+    Player player = CommandHelper.asPlayer(sender);
+}
+
+// Permission check
+if (CommandHelper.hasPermission(sender, "myplugin.admin")) {
+    // Do admin stuff
+}
 ```
 
 ---
