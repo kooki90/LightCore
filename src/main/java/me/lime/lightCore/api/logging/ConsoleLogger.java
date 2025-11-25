@@ -108,6 +108,20 @@ public final class ConsoleLogger {
         log(prefix, message, LogLevel.DEBUG);
     }
 
+    /**
+     * Log a fatal message with prefix
+     */
+    public static void fatal(@NotNull String prefix, @NotNull String message) {
+        log(prefix, message, LogLevel.FATAL);
+    }
+
+    /**
+     * Log a success message with prefix
+     */
+    public static void success(@NotNull String prefix, @NotNull String message) {
+        log(prefix, message, LogLevel.SUCCESS);
+    }
+
     @NotNull
     private static String format(@NotNull String message, @NotNull LogLevel level) {
         return level.getColorCode() + message;

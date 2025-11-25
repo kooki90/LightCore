@@ -7,6 +7,7 @@ A lightweight Spigot/Paper library for:
 - **Text Colors** - MiniMessage & legacy color support with caching
 - **Console Logging** - Colored log levels (info, warn, error, debug, fatal)
 - **Command Helpers** - Tab completion utilities and player/world filters
+- **Config Utilities** - ConfigService with caching and ConfigMigrator for updates
 
 ---
 
@@ -60,7 +61,7 @@ Server Information:
     <dependency>
         <groupId>com.github.kooki90</groupId>
         <artifactId>lightcore</artifactId>
-        <version>v1.0.9</version>
+        <version>v1.0.10</version>
         <scope>compile</scope>
     </dependency>
 </dependencies>
@@ -376,6 +377,77 @@ if (CommandHelper.hasPermission(sender, "myplugin.admin")) {
     // Do admin stuff
 }
 ```
+
+---
+
+## Config API
+
+### ConfigService
+
+A wrapper around YamlConfiguration with automatic caching.
+
+```java
+import me.lime.lightCore.api.config.ConfigService;
+
+// Create config service
+ConfigService config = ConfigService.create(plugin, "config.yml");
+// Or for default config.yml
+ConfigService config = ConfigService.create(plugin);
+
+// Get values (cached)
+String name = config.getString("name");
+int amount = config.getInt("amount", 10);
+boolean enabled = config.getBoolean("enabled");
+List<String> list = config.getStringList("items");
+
+// Set values
+config.set("player.coins", 100);
+config.save();
+
+// Reload from disk
+config.reload();
+
+// Complex types
+Location spawn = config.getLocation("spawn");
+ItemStack item = config.getItemStack("reward");
+ConfigurationSection section = config.getSection("settings");
+```
+
+### ConfigMigrator
+
+Automatically migrate configs when your plugin updates. Preserves user values while adding new options.
+
+```java
+import me.lime.lightCore.api.config.ConfigMigrator;
+
+// In your onEnable()
+ConfigMigrator.builder(plugin)
+    .fileName("config.yml")
+    .versionPath("config-version")  // Path to version number in config
+    .backupPath("backups")          // Where to store backups
+    .makeBackup(true)               // Create backup before migration
+    .build()
+    .migrate();
+
+// Or simple usage
+ConfigMigrator.of(plugin, "config.yml", "config-version").migrate();
+```
+
+**Your config.yml should have a version number:**
+```yaml
+# Don't change this!
+config-version: 1
+
+settings:
+  enabled: true
+  # ... other settings
+```
+
+When you release an update, increment the version in your resource config. The migrator will:
+1. Detect the version mismatch
+2. Create a backup (if enabled)
+3. Copy the new config from resources
+4. Restore user's custom values
 
 ---
 
