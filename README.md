@@ -3,6 +3,7 @@
 A lightweight Spigot/Paper library for:
 - **Startup Messages** - Beautiful ASCII art startup messages
 - **Messaging System** - Chat, ActionBar, Title, BossBar with hex colors & placeholders
+- **World Utilities** - World, Block, and Chunk helpers
 
 ---
 
@@ -56,7 +57,7 @@ Server Information:
     <dependency>
         <groupId>com.github.kooki90</groupId>
         <artifactId>lightcore</artifactId>
-        <version>v1.0.6</version>
+        <version>v1.0.7</version>
         <scope>compile</scope>
     </dependency>
 </dependencies>
@@ -166,6 +167,73 @@ MessageBuilder.create()
     .bossbarColor(BossBar.Color.RED)
     .bossbarDuration(200)
     .sendBossbar();
+```
+
+---
+
+## World Utilities API
+
+### WorldUtil
+
+```java
+import me.lime.lightCore.api.world.WorldUtil;
+
+// Check world environment
+WorldUtil.isOverworld(world);  // true if normal world
+WorldUtil.isNether(world);     // true if nether
+WorldUtil.isEnd(world);        // true if end
+
+// Compare locations/worlds
+WorldUtil.isSameWorld(locA, locB);
+WorldUtil.isLocationInWorld(loc, world);
+
+// Get world info
+WorldUtil.getName(world);      // "world" or "unknown"
+WorldUtil.getType(world);      // "overworld", "nether", "end", "custom"
+WorldUtil.getSpawn(world);     // spawn location
+```
+
+### BlockUtil
+
+```java
+import me.lime.lightCore.api.world.BlockUtil;
+
+// Check block properties
+BlockUtil.isAir(block);        // air or empty
+BlockUtil.isSolid(block);      // solid (not liquid)
+BlockUtil.isLiquid(block);     // water or lava
+BlockUtil.isDangerous(block);  // lava, fire, cactus, magma, etc.
+BlockUtil.isSafe(block);       // safe to stand on
+BlockUtil.isContainer(block);  // chest, barrel, hopper, etc.
+
+// Get block info
+BlockUtil.getTypeName(block);  // "STONE", "GRASS_BLOCK", etc.
+BlockUtil.isSameType(blockA, blockB);
+```
+
+### ChunkUtil
+
+```java
+import me.lime.lightCore.api.world.ChunkUtil;
+
+// Async chunk loading
+ChunkUtil.getChunkAsync(world, chunkX, chunkZ)
+    .thenAccept(chunk -> {
+        // Do something with chunk
+    });
+
+// Find safe spawn Y coordinate
+ChunkUtil.createSafeYAsync(world, x, z)
+    .thenAccept(safeY -> {
+        if (safeY != Integer.MIN_VALUE) {
+            Location safe = new Location(world, x, safeY, z);
+            player.teleport(safe);
+        }
+    });
+
+// Check if position is safe
+ChunkSnapshot snapshot = ChunkUtil.snapshot(chunk);
+boolean safe = ChunkUtil.isSafe(snapshot, localX, y, localZ, minY, maxY);
 ```
 
 ---
