@@ -8,6 +8,7 @@ A lightweight Spigot/Paper library for:
 - **Console Logging** - Colored log levels (info, warn, error, debug, fatal)
 - **Command Helpers** - Tab completion utilities and player/world filters
 - **Config Utilities** - ConfigService with caching and ConfigMigrator for updates
+- **Utility Classes** - String, Math, File, Cooldown, PDC, Stream, Lock utilities
 
 ---
 
@@ -61,7 +62,7 @@ Server Information:
     <dependency>
         <groupId>com.github.kooki90</groupId>
         <artifactId>lightcore</artifactId>
-        <version>v1.0.10</version>
+        <version>v1.0.11</version>
         <scope>compile</scope>
     </dependency>
 </dependencies>
@@ -448,6 +449,94 @@ When you release an update, increment the version in your resource config. The m
 2. Create a backup (if enabled)
 3. Copy the new config from resources
 4. Restore user's custom values
+
+---
+
+## Utility Classes
+
+### StringUtil
+
+```java
+import me.lime.lightCore.api.util.StringUtil;
+
+StringUtil.capitalize("hello");              // "Hello"
+StringUtil.capitalizeFully("hello world");   // "Hello World"
+StringUtil.slugify("Hello World!");          // "hello-world"
+StringUtil.truncate("Long text", 5, "...");  // "Lo..."
+StringUtil.randomString(8);                  // "aB3xK9pQ"
+StringUtil.similarity("hello", "hallo");     // 0.8 (80% similar)
+StringUtil.parsePlaceholders("Hi {name}!", "{name}", "Steve");
+```
+
+### MathUtil
+
+```java
+import me.lime.lightCore.api.util.MathUtil;
+
+MathUtil.randomInt(1, 100);
+MathUtil.chance(50.0);                       // 50% chance returns true
+MathUtil.clamp(value, 0, 100);
+MathUtil.distance2D(locA, locB);
+MathUtil.randomOffset(location, 5.0);        // Random location within 5 blocks
+MathUtil.isInWorldBorder(world, x, z);
+```
+
+### CooldownUtil
+
+```java
+import me.lime.lightCore.api.util.CooldownUtil;
+
+// Simple usage
+CooldownUtil.setCooldownSeconds("ability", player.getUniqueId(), 30);
+if (CooldownUtil.isOnCooldown("ability", player.getUniqueId())) {
+    long remaining = CooldownUtil.getRemainingSeconds("ability", player.getUniqueId());
+}
+
+// Builder pattern
+CooldownUtil.of("teleport")
+    .player(player)
+    .durationSeconds(60)
+    .start();
+```
+
+### PDCUtil
+
+```java
+import me.lime.lightCore.api.util.PDCUtil;
+
+// Initialize once in onEnable()
+PDCUtil.init(this);
+
+// Usage
+PDCUtil.setString(item.getItemMeta().getPersistentDataContainer(), "custom_id", "my_item");
+String id = PDCUtil.getString(pdc, "custom_id");
+PDCUtil.setBoolean(pdc, "soulbound", true);
+```
+
+### FileUtil
+
+```java
+import me.lime.lightCore.api.util.FileUtil;
+
+File file = FileUtil.get(plugin, "data/players.yml");
+FileUtil.write(file, "content");
+String content = FileUtil.read(file);
+FileUtil.copy(source, destination);
+List<File> files = FileUtil.listRecursive(folder);
+```
+
+### StreamUtil
+
+```java
+import me.lime.lightCore.api.util.StreamUtil;
+
+List<String> names = StreamUtil.from(players)
+    .filterNotNull()
+    .map(Player::getName)
+    .filter(n -> n.startsWith("A"))
+    .sorted(Comparator.naturalOrder())
+    .toList();
+```
 
 ---
 
